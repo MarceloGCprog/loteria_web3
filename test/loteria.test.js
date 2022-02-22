@@ -98,4 +98,26 @@ describe("Teste Loteria:", ()=>{
             assert.ok(err);
         }
     });
+
+    it("Teste Envio Premio", async () =>{     
+        
+        var manager = await contrato.methods.manager().call();
+
+        await contrato.methods.enterGame().send({
+                from: manager,
+                value: web3.utils.toWei('2','ether')});
+        
+        const initialBalance = await web3.eth.getBalance(manager);
+
+        await contrato.methods.winnerPick().send({
+            from: manager
+        });
+
+        const finalBalance = await web3.eth.getBalance(manager);
+
+        const diference = finalBalance - initialBalance;
+
+        assert(diference > web3.utils.toWei('1.8','ether'));
+        
+    });
 });
