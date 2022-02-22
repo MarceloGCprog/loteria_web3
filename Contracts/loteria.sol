@@ -30,7 +30,7 @@ contract Loteria {
 
     }
 
-    function winnerPick() restricao public payable {
+    function winnerPick() public payable restricao{
 
         uint index = random() % players.length;
 
